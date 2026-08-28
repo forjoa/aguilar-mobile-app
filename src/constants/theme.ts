@@ -14,6 +14,14 @@ export const Colors = {
     backgroundElement: '#F0F0F3',
     backgroundSelected: '#E0E1E6',
     textSecondary: '#60646C',
+    border: '#E0E1E6',
+    // Contraste verificado ≥ 4.5:1 (WCAG AA, texto normal) tanto sobre
+    // `background` como sobre `backgroundElement` — este último es el más
+    // exigente de los dos y el que usa `Badge`.
+    primary: '#1D4ED8',
+    success: '#166534',
+    warning: '#92400E',
+    danger: '#B91C1C',
   },
   dark: {
     text: '#ffffff',
@@ -21,6 +29,13 @@ export const Colors = {
     backgroundElement: '#212225',
     backgroundSelected: '#2E3135',
     textSecondary: '#B0B4BA',
+    border: '#2E3135',
+    // Contraste verificado ≥ 4.5:1 (WCAG AA, texto normal) tanto sobre
+    // `background` como sobre `backgroundElement`.
+    primary: '#60A5FA',
+    success: '#4ADE80',
+    warning: '#FBBF24',
+    danger: '#F87171',
   },
 } as const;
 
@@ -61,5 +76,13 @@ export const Spacing = {
   six: 64,
 } as const;
 
+export const Radius = {
+  small: 6,
+  medium: 10,
+  large: 16,
+  pill: 999,
+} as const;
+
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;
+export const MinTouchTarget = 44;

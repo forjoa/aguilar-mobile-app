@@ -1,12 +1,11 @@
-import { SymbolView } from 'expo-symbols';
 import { Link } from 'expo-router';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { ListItem } from '@/components/list-item';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
 
 const EXTRA_MODULES = [
   { href: '/mas/gamificacion', emoji: '🏅', title: 'Puntos por civismo' },
@@ -18,8 +17,6 @@ const EXTRA_MODULES = [
 ] as const;
 
 export default function MasScreen() {
-  const theme = useTheme();
-
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -29,17 +26,11 @@ export default function MasScreen() {
           </ThemedText>
           {EXTRA_MODULES.map((item) => (
             <Link key={item.href} href={item.href} asChild>
-              <ThemedView type="backgroundElement" style={styles.row}>
-                <ThemedText style={styles.rowEmoji}>{item.emoji}</ThemedText>
-                <ThemedText type="default" style={styles.rowTitle}>
-                  {item.title}
-                </ThemedText>
-                <SymbolView
-                  name={{ ios: 'chevron.right', android: 'chevron_right', web: 'chevron_right' }}
-                  tintColor={theme.textSecondary}
-                  size={16}
-                />
-              </ThemedView>
+              <ListItem
+                title={item.title}
+                leading={<ThemedText style={styles.rowEmoji}>{item.emoji}</ThemedText>}
+                accessibilityRole="link"
+              />
             </Link>
           ))}
         </ScrollView>
@@ -63,17 +54,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: Spacing.two,
   },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.three,
-    padding: Spacing.three,
-    borderRadius: Spacing.three,
-  },
   rowEmoji: {
     fontSize: 22,
-  },
-  rowTitle: {
-    flex: 1,
   },
 });
