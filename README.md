@@ -1,56 +1,46 @@
-# Welcome to your Expo app 👋
+# Aguilar — App Pueblo Digital (maqueta)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Maqueta/prototipo de la app de digitalización del pueblo. Fase actual: sin backend, todo con datos mock, para la presentación/exposición inicial. Ver `PROPUESTA_SERVICIOS_APP.md` (carpeta padre) y el proyecto `aguilar-mobile-app` en Linear para el alcance y el reparto de trabajo completos.
 
-## Get started
+Construida con [Expo](https://expo.dev) (SDK 57) + [Expo Router](https://docs.expo.dev/router/introduction) + TypeScript, usando **Expo Go** para poder probar en iPhone/Android sin necesidad de un Mac.
 
-1. Install dependencies
+## Arrancar el proyecto
+
+1. Instala [Expo Go](https://expo.dev/go) en tu móvil (App Store / Play Store).
+2. Instala dependencias:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Arranca el servidor de desarrollo:
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+4. Escanea el código QR que aparece en la terminal con la app **Expo Go** (Android: escáner integrado en la propia app; iOS: cámara del sistema). La app se abre en tu móvil.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   También puedes pulsar `w` en la terminal para abrir la versión web (útil para revisar pantallas rápido sin un dispositivo a mano).
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Estructura del proyecto
 
-## Get a fresh project
+- `src/app/` — rutas de la app (Expo Router, file-based routing). Cada archivo es una pantalla.
+  - `(tabs)/` — las 7 pestañas principales: los 6 módulos núcleo + "Más".
+  - `mas/` — pantallas de los 6 módulos adicionales, accesibles desde la pestaña "Más" (navegación en pila, con botón atrás).
+- `src/components/` — componentes reutilizables (`ThemedText`, `ThemedView`, `PlaceholderScreen`, etc.).
+- `src/constants/theme.ts` — colores, tipografías y espaciados compartidos.
+- `src/types/` y `src/mocks/` — modelos de datos y datos de ejemplo compartidos entre módulos (se completan en la issue de sistema de diseño, HAS-6).
 
-When you're ready, run:
+Cada módulo del listado de "Más" y cada pestaña núcleo son ahora mismo una pantalla placeholder ("Módulo en construcción"): el desarrollo de cada uno vive en su propia issue de Linear.
+
+## Calidad de código
 
 ```bash
-npm run reset-project
+npm run lint      # ESLint
+npm run format    # Prettier (aplica formato)
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Publicar en Expo (pendiente)
 
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Para publicar el proyecto en una cuenta de equipo de Expo y compartir un enlace/QR fijo (en vez de depender de tener `npx expo start` corriendo), hace falta iniciar sesión con `npx expo login` — no incluido en este setup porque requiere autenticación interactiva de una persona del equipo.
