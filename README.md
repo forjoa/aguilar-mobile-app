@@ -1,4 +1,4 @@
-# Aguilar — App Pueblo Digital (maqueta)
+# Aguilar de la Frontera — App Pueblo Digital (maqueta)
 
 Maqueta/prototipo de la app de digitalización del pueblo. Fase actual: sin backend, todo con datos mock, para la presentación/exposición inicial. Ver `PROPUESTA_SERVICIOS_APP.md` (carpeta padre) y el proyecto `aguilar-mobile-app` en Linear para el alcance y el reparto de trabajo completos.
 
