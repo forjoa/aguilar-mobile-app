@@ -21,9 +21,21 @@ La regla más importante — la que distingue a un ingeniero senior de verdad:
 
 ## 2. Flujo de trabajo (Linear + Git)
 
-1. **Antes de empezar cualquier tarea:** `git fetch` + `git pull` de `main` para partir de lo último.
+1. **Antes de empezar cualquier tarea:** `git fetch` + `git pull` de `main` para partir de lo último. Sin excepción, aunque la tarea parezca pequeña.
 2. **Toda tarea nace de una issue de Linear** (`HAS-XX`): usa su checklist como especificación y su `gitBranchName` sugerido para la rama (`usuario/has-xx-slug`).
-3. **Commits:** [Conventional Commits](https://www.conventionalcommits.org/) + referencia a la issue, en imperativo y sin relleno — p. ej. `feat(HAS-6): add Button and Card base components`.
+3. **Commits — [Conventional Commits](https://www.conventionalcommits.org/):**
+   - Asunto: `<tipo>(HAS-XX): <resumen en imperativo, minúsculas, sin punto final>` — p. ej. `feat(HAS-6): add Button and Card base components`. Tipos: `feat`, `fix`, `docs`, `refactor`, `perf`, `test`, `chore`, `style`.
+   - Si el commit toca más de una cosa, añade cuerpo: línea en blanco y luego bullets, uno por cambio, explicando qué y por qué (no repitas el diff) — por ejemplo:
+
+     ```
+     docs: define collaborative engineering rules and RN reviewer agent
+
+     - expand AGENTS.md with anti-hallucination rules, Linear+Git workflow,
+       code conventions and React Native/Expo performance rules
+     - add .claude/agents/rn-reviewer.md, a project-scoped review agent
+     - disable Claude Code commit/PR attribution trailers in settings.json
+     ```
+   - Un commit = un cambio lógico coherente. No mezcles una feature con un refactor no relacionado o con formateo masivo.
 4. **PR obligatorio para features**, contra `main`, con: qué issue resuelve, captura o grabación de pantalla si toca UI (esto es una app muy visual), y el checklist de la issue con lo ya cubierto marcado. Se fusiona con al menos una revisión humana entre vosotros dos.
    - Excepción explícita: cambios pequeños de configuración/documentación que uno de vosotros autorice expresamente pueden ir directos a `main`.
 5. **Antes de abrir el PR:** `npm run lint`, `npm run format` y `npx tsc --noEmit` en verde. Si añades lógica no trivial, valora un test.
