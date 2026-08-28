@@ -14,7 +14,7 @@ import { MapBackground } from '@/components/map-background';
 import { ScreenHeader } from '@/components/screen-header';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Colors, Spacing, type ThemeColor } from '@/constants/theme';
+import { Colors, Radius, Spacing, type ThemeColor } from '@/constants/theme';
 
 // Catálogo visual del sistema de diseño de HAS-6 — no forma parte de la
 // navegación de la app (no hay tab ni entrada en "Más"): es documentación
@@ -182,6 +182,6 @@ const styles = StyleSheet.create({
   swatch: {
     width: 48,
     height: 48,
-    borderRadius: Spacing.two,
+    borderRadius: Radius.small,
   },
 });

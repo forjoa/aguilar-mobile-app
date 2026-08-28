@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, View, type ViewProps } from 'react-native';
 
-import { Radius, Spacing } from '@/constants/theme';
+import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export type CardProps = ViewProps & {
@@ -26,7 +26,7 @@ export function Card({ style, onPress, accessibilityLabel, children, ...rest }: 
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
-      style={({ pressed }) => pressed && styles.pressed}
+      style={({ pressed }) => [styles.pressableMinSize, pressed && styles.pressed]}
     >
       {content}
     </Pressable>
@@ -39,7 +39,11 @@ const styles = StyleSheet.create({
     padding: Spacing.three,
     gap: Spacing.two,
   },
+  pressableMinSize: {
+    minHeight: MinTouchTarget,
+    justifyContent: 'center',
+  },
   pressed: {
-    opacity: 0.85,
+    opacity: 0.7,
   },
 });

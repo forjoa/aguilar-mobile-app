@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -17,8 +17,6 @@ const EXTRA_MODULES = [
 ] as const;
 
 export default function MasScreen() {
-  const router = useRouter();
-
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -27,12 +25,13 @@ export default function MasScreen() {
             Más
           </ThemedText>
           {EXTRA_MODULES.map((item) => (
-            <ListItem
-              key={item.href}
-              title={item.title}
-              leading={<ThemedText style={styles.rowEmoji}>{item.emoji}</ThemedText>}
-              onPress={() => router.push(item.href)}
-            />
+            <Link key={item.href} href={item.href} asChild>
+              <ListItem
+                title={item.title}
+                leading={<ThemedText style={styles.rowEmoji}>{item.emoji}</ThemedText>}
+                accessibilityRole="link"
+              />
+            </Link>
           ))}
         </ScrollView>
       </SafeAreaView>

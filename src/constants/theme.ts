@@ -15,10 +15,12 @@ export const Colors = {
     backgroundSelected: '#E0E1E6',
     textSecondary: '#60646C',
     border: '#E0E1E6',
-    // Contraste verificado ≥ 4.5:1 sobre `background` (WCAG AA para texto normal).
-    primary: '#2563EB',
-    success: '#15803D',
-    warning: '#B45309',
+    // Contraste verificado ≥ 4.5:1 (WCAG AA, texto normal) tanto sobre
+    // `background` como sobre `backgroundElement` — este último es el más
+    // exigente de los dos y el que usa `Badge`.
+    primary: '#1D4ED8',
+    success: '#166534',
+    warning: '#92400E',
     danger: '#B91C1C',
   },
   dark: {
@@ -28,7 +30,8 @@ export const Colors = {
     backgroundSelected: '#2E3135',
     textSecondary: '#B0B4BA',
     border: '#2E3135',
-    // Contraste verificado ≥ 4.5:1 sobre `background` (WCAG AA para texto normal).
+    // Contraste verificado ≥ 4.5:1 (WCAG AA, texto normal) tanto sobre
+    // `background` como sobre `backgroundElement`.
     primary: '#60A5FA',
     success: '#4ADE80',
     warning: '#FBBF24',

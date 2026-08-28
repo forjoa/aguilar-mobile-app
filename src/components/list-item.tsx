@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 import { SymbolView } from 'expo-symbols';
-import { Pressable, StyleSheet, View, type ViewProps } from 'react-native';
+import { Pressable, StyleSheet, View, type AccessibilityRole, type ViewProps } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
-import { MinTouchTarget, Spacing } from '@/constants/theme';
+import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export type ListItemProps = ViewProps & {
@@ -15,6 +15,12 @@ export type ListItemProps = ViewProps & {
   trailing?: ReactNode;
   onPress?: () => void;
   accessibilityLabel?: string;
+  /**
+   * Rol semántico del `Pressable` cuando hay `onPress`. Por defecto "button"
+   * (una acción); pásalo como "link" cuando la fila navega (p. ej. dentro de
+   * un `<Link asChild>`) para que web conserve semántica de enlace real.
+   */
+  accessibilityRole?: AccessibilityRole;
 };
 
 /** Fila genérica de lista: icono/avatar + título/subtítulo + accesorio. */
@@ -25,6 +31,7 @@ export function ListItem({
   trailing,
   onPress,
   accessibilityLabel,
+  accessibilityRole = 'button',
   style,
   ...rest
 }: ListItemProps) {
@@ -65,7 +72,7 @@ export function ListItem({
   return (
     <Pressable
       onPress={onPress}
-      accessibilityRole="button"
+      accessibilityRole={accessibilityRole}
       accessibilityLabel={accessibilityLabel ?? title}
       style={({ pressed }) => pressed && styles.pressed}
     >
@@ -81,7 +88,7 @@ const styles = StyleSheet.create({
     minHeight: MinTouchTarget,
     gap: Spacing.three,
     padding: Spacing.three,
-    borderRadius: Spacing.three,
+    borderRadius: Radius.large,
   },
   leading: {
     alignItems: 'center',
@@ -92,6 +99,6 @@ const styles = StyleSheet.create({
     gap: Spacing.half,
   },
   pressed: {
-    opacity: 0.85,
+    opacity: 0.7,
   },
 });
