@@ -145,9 +145,17 @@ export interface Pharmacy {
   address: string;
   phone: string;
   regularHours: string;
-  /** Only one pharmacy in the mock has this set to `true` for "today". */
-  onDutyToday: boolean;
-  nextShift?: string;
+}
+
+/**
+ * One day of the on-duty rotation: which pharmacy covers that day outside
+ * `regularHours` (nights, Sundays…). See `getPharmacyDutySchedule`, which
+ * computes this relative to today instead of a hardcoded mock so "today's"
+ * pharmacy is always right whenever the app runs.
+ */
+export interface PharmacyDutyShift {
+  date: string;
+  pharmacyId: ID;
 }
 
 // --- Intercity bus schedules (HAS-15) ----------------------------------------

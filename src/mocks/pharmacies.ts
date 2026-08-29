@@ -8,7 +8,6 @@ export const mockPharmacies: Pharmacy[] = [
     address: 'Calle Real, 30',
     phone: '957 000 111',
     regularHours: 'L-V 9:00-14:00 y 17:00-20:30, S 9:00-14:00',
-    onDutyToday: true,
   },
   {
     id: 'pha-2',
@@ -16,8 +15,6 @@ export const mockPharmacies: Pharmacy[] = [
     address: 'Avenida de Andalucía, 18',
     phone: '957 000 222',
     regularHours: 'L-V 9:00-14:00 y 17:00-20:30, S 9:00-14:00',
-    onDutyToday: false,
-    nextShift: '2026-08-30',
   },
   {
     id: 'pha-3',
@@ -25,7 +22,12 @@ export const mockPharmacies: Pharmacy[] = [
     address: 'Plaza del Coso, 5',
     phone: '957 000 333',
     regularHours: 'L-S 9:00-14:00 y 17:30-21:00',
-    onDutyToday: false,
-    nextShift: '2026-09-01',
+  },
+  {
+    id: 'pha-4',
+    name: 'Farmacia Ldo. Serrano',
+    address: 'Calle Molino, 22',
+    phone: '957 000 444',
+    regularHours: 'L-V 9:30-14:00 y 17:00-20:00',
   },
 ];
