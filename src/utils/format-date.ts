@@ -32,6 +32,14 @@ export function formatDateTime(value: string | Date): string {
   return `${formatDate(value)}, ${formatTime(value)}`;
 }
 
+/** "2026-08-29" — a sortable/storable date key, not for display (see `formatDate`). */
+export function toDateKey(value: Date): string {
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, '0');
+  const day = String(value.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 function isSameCalendarDay(a: Date, b: Date): boolean {
   return (
     a.getFullYear() === b.getFullYear() &&
