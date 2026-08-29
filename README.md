@@ -27,7 +27,7 @@ Construida con [Expo](https://expo.dev) (SDK 57) + [Expo Router](https://docs.ex
 
 - `src/app/` — rutas de la app (Expo Router, file-based routing). Cada archivo es una pantalla.
   - `(tabs)/` — las 7 pestañas principales: los 6 módulos núcleo + "Más".
-  - `mas/` — pantallas de los 6 módulos adicionales, accesibles desde la pestaña "Más" (navegación en pila, con botón atrás).
+  - `more/` — pantallas de los 6 módulos adicionales, accesibles desde la pestaña "Más" (navegación en pila, con botón atrás).
 - `src/components/` — componentes reutilizables: los base de HAS-6 (`Card`, `Button`, `Avatar`, `Badge`, `EmptyState`, `LoadingSpinner`, `ScreenHeader`, `ListItem`, `MapBackground`) más `ThemedText`, `ThemedView`, `PlaceholderScreen`.
 - `src/constants/theme.ts` — colores (incluye variantes semánticas `primary`/`success`/`warning`/`danger`), tipografías, espaciados y radios de borde compartidos.
 - `src/types/` y `src/mocks/` — modelos de datos y datos de ejemplo compartidos entre módulos, uno por entidad (`Comercio`, `Evento`, `Incidencia`, etc.) — ver HAS-6.

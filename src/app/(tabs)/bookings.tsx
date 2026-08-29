@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function ReservasScreen() {
+export default function BookingsScreen() {
   return (
     <PlaceholderScreen
       emoji="🎾"

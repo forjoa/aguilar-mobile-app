@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function EncuestasScreen() {
+export default function PollsScreen() {
   return (
     <PlaceholderScreen
       emoji="🗳️"

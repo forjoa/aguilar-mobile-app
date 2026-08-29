@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function GamificacionScreen() {
+export default function GamificationScreen() {
   return (
     <PlaceholderScreen
       emoji="🏅"
