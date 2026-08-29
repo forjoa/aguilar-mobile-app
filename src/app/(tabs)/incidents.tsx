@@ -288,12 +288,13 @@ const styles = StyleSheet.create({
   },
   marker: {
     position: 'absolute',
-    width: 32,
-    height: 32,
+    width: Spacing.five,
+    height: Spacing.five,
     borderRadius: Radius.pill,
     alignItems: 'center',
     justifyContent: 'center',
-    transform: [{ translateX: -16 }, { translateY: -16 }],
+    // Centers the marker on its (left, top) point — half of Spacing.five.
+    transform: [{ translateX: -Spacing.three }, { translateY: -Spacing.three }],
   },
   markerEmoji: {
     fontSize: 14,
