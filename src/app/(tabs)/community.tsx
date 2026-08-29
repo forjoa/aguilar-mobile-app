@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
+  AccessibilityInfo,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -274,6 +275,9 @@ export default function CommunityScreen() {
     if (plan && !plan.isJoined) {
       addPoints('Te apuntaste a un plan', PLAN_JOIN_POINTS);
       showPointsMessage(`+${PLAN_JOIN_POINTS} puntos`);
+      // accessibilityLiveRegion on the Badge below is Android-only —
+      // this announces on iOS too.
+      AccessibilityInfo.announceForAccessibility(`Ganaste ${PLAN_JOIN_POINTS} puntos.`);
     }
     setPlans((current) =>
       current.map((p) =>
@@ -303,12 +307,7 @@ export default function CommunityScreen() {
             ListHeaderComponent={
               <View style={styles.headerSection}>
                 {pointsMessage ? (
-                  <Badge
-                    label={pointsMessage}
-                    variant="success"
-                    style={styles.pointsBadge}
-                    accessibilityLiveRegion="polite"
-                  />
+                  <Badge label={pointsMessage} variant="success" accessibilityLiveRegion="polite" />
                 ) : null}
                 {isCreateFormOpen ? (
                   <CreatePlanForm
@@ -381,9 +380,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: Spacing.one,
-  },
-  pointsBadge: {
-    alignSelf: 'flex-start',
   },
   formCard: {
     gap: Spacing.two,

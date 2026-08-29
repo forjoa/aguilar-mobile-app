@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { AccessibilityInfo, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Badge, type BadgeVariant } from '@/components/badge';
@@ -77,11 +77,7 @@ function ReportIncidentForm({ onDone }: { onDone: () => void }) {
     return (
       <Card style={styles.formCard}>
         <ThemedText type="default">Incidencia enviada, gracias por avisar.</ThemedText>
-        <Badge
-          label={`+${INCIDENT_REPORT_POINTS} puntos`}
-          variant="success"
-          style={styles.pointsBadge}
-        />
+        <Badge label={`+${INCIDENT_REPORT_POINTS} puntos`} variant="success" />
         <Button title="Cerrar" variant="secondary" onPress={onDone} style={styles.formButton} />
       </Card>
     );
@@ -135,6 +131,11 @@ function ReportIncidentForm({ onDone }: { onDone: () => void }) {
             }
             setError(null);
             addPoints('Reportaste una incidencia', INCIDENT_REPORT_POINTS);
+            // Announces the points gain to screen readers on both platforms
+            // (the "+N puntos" Badge below is otherwise silent to them).
+            AccessibilityInfo.announceForAccessibility(
+              `Incidencia enviada. Ganaste ${INCIDENT_REPORT_POINTS} puntos.`,
+            );
             setSubmitted(true);
           }}
         />
@@ -304,9 +305,6 @@ const styles = StyleSheet.create({
     gap: Spacing.two,
   },
   formButton: {
-    alignSelf: 'flex-start',
-  },
-  pointsBadge: {
     alignSelf: 'flex-start',
   },
   formActions: {

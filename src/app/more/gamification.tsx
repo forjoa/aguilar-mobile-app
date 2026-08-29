@@ -15,7 +15,7 @@ import { useCivicPoints } from '@/hooks/use-civic-points';
 import { mockBusinesses } from '@/mocks/businesses';
 import { mockRedeemedCoupons } from '@/mocks/redeemed-coupons';
 import { mockRewards } from '@/mocks/rewards';
-import type { RedeemedCoupon, Reward } from '@/types';
+import type { CivicPointsEntry, RedeemedCoupon, Reward } from '@/types';
 import { formatDate } from '@/utils/format-date';
 
 const REWARD_TYPE_LABEL: Record<Reward['type'], string> = {
@@ -38,39 +38,48 @@ function PointsView({
   history,
 }: {
   totalPoints: number;
-  history: { reason: string; points: number; date: string }[];
+  history: CivicPointsEntry[];
 }) {
+  const sortedHistory = [...history].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+
   return (
-    <View style={styles.content}>
-      <Card style={styles.balanceCard}>
-        <ThemedText type="smallBold" themeColor="textSecondary">
-          TU SALDO
-        </ThemedText>
-        <ThemedText type="subtitle">{totalPoints} puntos</ThemedText>
-      </Card>
-      <ThemedText type="smallBold">Historial</ThemedText>
-      {history.length === 0 ? (
+    <FlatList
+      data={sortedHistory}
+      keyExtractor={(entry, index) => `${entry.date}-${index}`}
+      contentContainerStyle={styles.content}
+      ListHeaderComponent={
+        <View style={styles.headerSection}>
+          <Card style={styles.balanceCard}>
+            <ThemedText type="smallBold" themeColor="textSecondary">
+              TU SALDO
+            </ThemedText>
+            <ThemedText type="subtitle">{totalPoints} puntos</ThemedText>
+          </Card>
+          <ThemedText type="smallBold">Historial</ThemedText>
+        </View>
+      }
+      ListEmptyComponent={
         <EmptyState
           emoji="🏅"
           title="Aún no tienes movimientos"
           description="Reporta una incidencia o apúntate a un plan de Comunidad para ganar tus primeros puntos."
         />
-      ) : (
-        history.map((entry, index) => (
-          <ListItem
-            key={`${entry.date}-${index}`}
-            title={entry.reason}
-            subtitle={formatDate(entry.date)}
-            trailing={
-              <Badge
-                label={`${entry.points > 0 ? '+' : ''}${entry.points}`}
-                variant={entry.points > 0 ? 'success' : 'neutral'}
-              />
-            }
-          />
-        ))
+      }
+      renderItem={({ item }) => (
+        <ListItem
+          title={item.reason}
+          subtitle={formatDate(item.date)}
+          trailing={
+            <Badge
+              label={`${item.points > 0 ? '+' : ''}${item.points}`}
+              variant={item.points > 0 ? 'success' : 'neutral'}
+            />
+          }
+        />
       )}
-    </View>
+    />
   );
 }
 
@@ -148,6 +157,9 @@ function RewardsView({
 }) {
   const [selectedReward, setSelectedReward] = useState<Reward | null>(null);
   const [redeemedCoupon, setRedeemedCoupon] = useState<RedeemedCoupon | null>(null);
+  // Guards against a double-tap on "Confirmar canje" firing the redemption
+  // twice before React re-renders past it (see rn-reviewer finding on HAS-18).
+  const [isRedeeming, setIsRedeeming] = useState(false);
 
   if (redeemedCoupon && selectedReward) {
     return (
@@ -158,6 +170,7 @@ function RewardsView({
           onDone={() => {
             setSelectedReward(null);
             setRedeemedCoupon(null);
+            setIsRedeeming(false);
           }}
         />
       </View>
@@ -181,7 +194,12 @@ function RewardsView({
             <Button title="Cancelar" variant="ghost" onPress={() => setSelectedReward(null)} />
             <Button
               title="Confirmar canje"
+              disabled={isRedeeming}
               onPress={() => {
+                if (isRedeeming) {
+                  return;
+                }
+                setIsRedeeming(true);
                 const coupon: RedeemedCoupon = {
                   id: `cpn-${Date.now()}`,
                   rewardId: selectedReward.id,
@@ -312,6 +330,10 @@ const styles = StyleSheet.create({
   content: {
     gap: Spacing.two,
     padding: Spacing.four,
+  },
+  headerSection: {
+    gap: Spacing.two,
+    marginBottom: Spacing.one,
   },
   balanceCard: {
     gap: Spacing.one,
