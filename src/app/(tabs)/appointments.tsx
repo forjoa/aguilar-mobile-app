@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function CitasScreen() {
+export default function AppointmentsScreen() {
   return (
     <PlaceholderScreen
       emoji="🏛️"

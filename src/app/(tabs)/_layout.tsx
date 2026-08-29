@@ -34,14 +34,14 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="incidencias"
+        name="incidents"
         options={{
           title: 'Incidencias',
           tabBarIcon: tabIcon({ ios: 'map', android: 'map', web: 'map' }),
         }}
       />
       <Tabs.Screen
-        name="reservas"
+        name="bookings"
         options={{
           title: 'Reservas',
           tabBarIcon: tabIcon({
@@ -52,28 +52,28 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="comunidad"
+        name="community"
         options={{
           title: 'Comunidad',
           tabBarIcon: tabIcon({ ios: 'person.3', android: 'groups', web: 'groups' }),
         }}
       />
       <Tabs.Screen
-        name="comercio"
+        name="business"
         options={{
           title: 'Comercio',
           tabBarIcon: tabIcon({ ios: 'storefront', android: 'storefront', web: 'storefront' }),
         }}
       />
       <Tabs.Screen
-        name="citas"
+        name="appointments"
         options={{
           title: 'Citas',
           tabBarIcon: tabIcon({ ios: 'calendar', android: 'event', web: 'event' }),
         }}
       />
       <Tabs.Screen
-        name="mas"
+        name="more"
         options={{
           title: 'Más',
           tabBarIcon: tabIcon({ ios: 'ellipsis', android: 'more_horiz', web: 'more_horiz' }),

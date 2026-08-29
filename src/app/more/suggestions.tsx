@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function BuzonScreen() {
+export default function SuggestionsScreen() {
   return (
     <PlaceholderScreen
       emoji="📮"

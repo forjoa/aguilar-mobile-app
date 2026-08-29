@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function FarmaciaScreen() {
+export default function PharmacyScreen() {
   return (
     <PlaceholderScreen
       emoji="💊"

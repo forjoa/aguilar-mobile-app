@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function TablonScreen() {
+export default function NewsScreen() {
   return (
     <PlaceholderScreen
       emoji="📰"

@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function EmpleoScreen() {
+export default function JobsScreen() {
   return (
     <PlaceholderScreen
       emoji="💼"

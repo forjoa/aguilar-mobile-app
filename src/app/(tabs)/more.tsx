@@ -8,15 +8,15 @@ import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 
 const EXTRA_MODULES = [
-  { href: '/mas/gamificacion', emoji: '🏅', title: 'Puntos por civismo' },
-  { href: '/mas/empleo', emoji: '💼', title: 'Bolsa de empleo' },
-  { href: '/mas/farmacia', emoji: '💊', title: 'Farmacia de guardia' },
-  { href: '/mas/autobus', emoji: '🚌', title: 'Horarios de autobús' },
-  { href: '/mas/buzon', emoji: '📮', title: 'Quejas y sugerencias' },
-  { href: '/mas/encuestas', emoji: '🗳️', title: 'Encuestas' },
+  { href: '/more/gamification', emoji: '🏅', title: 'Puntos por civismo' },
+  { href: '/more/jobs', emoji: '💼', title: 'Bolsa de empleo' },
+  { href: '/more/pharmacy', emoji: '💊', title: 'Farmacia de guardia' },
+  { href: '/more/bus', emoji: '🚌', title: 'Horarios de autobús' },
+  { href: '/more/suggestions', emoji: '📮', title: 'Quejas y sugerencias' },
+  { href: '/more/polls', emoji: '🗳️', title: 'Encuestas' },
 ] as const;
 
-export default function MasScreen() {
+export default function MoreScreen() {
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>

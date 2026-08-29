@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function AutobusScreen() {
+export default function BusScreen() {
   return (
     <PlaceholderScreen
       emoji="🚌"

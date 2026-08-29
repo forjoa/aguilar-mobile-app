@@ -1,6 +1,6 @@
 import { PlaceholderScreen } from '@/components/placeholder-screen';
 
-export default function ComunidadScreen() {
+export default function CommunityScreen() {
   return (
     <PlaceholderScreen
       emoji="🤝"
