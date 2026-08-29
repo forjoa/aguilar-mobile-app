@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { AccessibilityInfo, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Badge, type BadgeVariant } from '@/components/badge';
@@ -13,6 +13,7 @@ import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Radius, Spacing } from '@/constants/theme';
+import { useCivicPoints } from '@/hooks/use-civic-points';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { useTheme } from '@/hooks/use-theme';
 import { mockIncidents } from '@/mocks/incidents';
@@ -29,7 +30,15 @@ const TYPE_INFO: Record<IncidentType, { label: string; emoji: string; variant: B
   other: { label: 'Otro', emoji: 'ℹ️', variant: 'neutral' },
 };
 
-const REPORT_TYPE_OPTIONS: IncidentType[] = ['roadwork', 'traffic_closure', 'utility_fault', 'other'];
+const REPORT_TYPE_OPTIONS: IncidentType[] = [
+  'roadwork',
+  'traffic_closure',
+  'utility_fault',
+  'other',
+];
+
+// Civic points awarded for reporting an incident (see Gamificación, HAS-18).
+const INCIDENT_REPORT_POINTS = 10;
 
 const BOUNDING_BOX = getBoundingBox(mockIncidents.map((incident) => incident.coordinates));
 
@@ -42,7 +51,10 @@ function IncidentDetails({ incident }: { incident: Incident }) {
         <ThemedText type="default" style={styles.detailAddress}>
           {incident.address}
         </ThemedText>
-        <Badge label={incident.status === 'active' ? 'Activa' : 'Resuelta'} variant={incident.status === 'active' ? 'warning' : 'success'} />
+        <Badge
+          label={incident.status === 'active' ? 'Activa' : 'Resuelta'}
+          variant={incident.status === 'active' ? 'warning' : 'success'}
+        />
       </View>
       <Badge label={`${typeInfo.emoji} ${typeInfo.label}`} variant={typeInfo.variant} />
       <ThemedText type="default">{incident.description}</ThemedText>
@@ -54,6 +66,7 @@ function IncidentDetails({ incident }: { incident: Incident }) {
 }
 
 function ReportIncidentForm({ onDone }: { onDone: () => void }) {
+  const { addPoints } = useCivicPoints();
   const [type, setType] = useState<IncidentType | null>(null);
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -64,6 +77,7 @@ function ReportIncidentForm({ onDone }: { onDone: () => void }) {
     return (
       <Card style={styles.formCard}>
         <ThemedText type="default">Incidencia enviada, gracias por avisar.</ThemedText>
+        <Badge label={`+${INCIDENT_REPORT_POINTS} puntos`} variant="success" />
         <Button title="Cerrar" variant="secondary" onPress={onDone} style={styles.formButton} />
       </Card>
     );
@@ -116,6 +130,12 @@ function ReportIncidentForm({ onDone }: { onDone: () => void }) {
               return;
             }
             setError(null);
+            addPoints('Reportaste una incidencia', INCIDENT_REPORT_POINTS);
+            // Announces the points gain to screen readers on both platforms
+            // (the "+N puntos" Badge below is otherwise silent to them).
+            AccessibilityInfo.announceForAccessibility(
+              `Incidencia enviada. Ganaste ${INCIDENT_REPORT_POINTS} puntos.`,
+            );
             setSubmitted(true);
           }}
         />
@@ -133,7 +153,8 @@ export default function IncidentsScreen() {
   const [isReportOpen, setIsReportOpen] = useState(false);
 
   const filteredIncidents = useMemo(
-    () => mockIncidents.filter((incident) => typeFilter === ALL_TYPES || incident.type === typeFilter),
+    () =>
+      mockIncidents.filter((incident) => typeFilter === ALL_TYPES || incident.type === typeFilter),
     [typeFilter],
   );
 
@@ -203,7 +224,11 @@ export default function IncidentsScreen() {
                         return (
                           <Pressable
                             key={incident.id}
-                            onPress={() => setSelectedId((current) => (current === incident.id ? null : incident.id))}
+                            onPress={() =>
+                              setSelectedId((current) =>
+                                current === incident.id ? null : incident.id,
+                              )
+                            }
                             accessibilityRole="button"
                             accessibilityLabel={`Incidencia: ${typeInfo.label} en ${incident.address}${isSelected ? ', seleccionada' : ''}`}
                             accessibilityState={{ selected: isSelected }}
@@ -213,7 +238,12 @@ export default function IncidentsScreen() {
                               {
                                 left: `${leftPercent}%`,
                                 top: `${topPercent}%`,
-                                backgroundColor: theme[typeInfo.variant === 'neutral' ? 'textSecondary' : typeInfo.variant],
+                                backgroundColor:
+                                  theme[
+                                    typeInfo.variant === 'neutral'
+                                      ? 'textSecondary'
+                                      : typeInfo.variant
+                                  ],
                                 borderColor: theme.background,
                                 borderWidth: isSelected ? 3 : 2,
                               },

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
+  AccessibilityInfo,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -19,7 +20,9 @@ import { TextField } from '@/components/text-field';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
+import { useCivicPoints } from '@/hooks/use-civic-points';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { useTimedMessage } from '@/hooks/use-timed-message';
 import { mockCommunityPlanComments } from '@/mocks/community-plan-comments';
 import { mockCommunityPlans } from '@/mocks/community-plans';
 import { mockUsers } from '@/mocks/users';
@@ -29,6 +32,9 @@ import { parseSpanishDateTime } from '@/utils/parse-spanish-date-time';
 
 const ALL_CATEGORIES = 'all';
 const KNOWN_CATEGORIES = ['Deporte', 'Ocio', 'Cultural', 'Vecinal', 'Solidaridad'];
+
+// Civic points awarded for joining a plan (see Gamificación, HAS-18).
+const PLAN_JOIN_POINTS = 5;
 
 /** Up to 3 names for the "Participantes: ..." line — includes "Tú" first when joined. */
 function getFeaturedParticipants(plan: CommunityPlan): string[] {
@@ -239,6 +245,8 @@ function PlanCard({
 
 export default function CommunityScreen() {
   const isLoading = useSimulatedLoading();
+  const { addPoints } = useCivicPoints();
+  const [pointsMessage, showPointsMessage] = useTimedMessage();
   const [plans, setPlans] = useState<CommunityPlan[]>(mockCommunityPlans);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string>(ALL_CATEGORIES);
@@ -263,15 +271,23 @@ export default function CommunityScreen() {
   }
 
   function handleToggleJoin(planId: string) {
+    const plan = plans.find((p) => p.id === planId);
+    if (plan && !plan.isJoined) {
+      addPoints('Te apuntaste a un plan', PLAN_JOIN_POINTS);
+      showPointsMessage(`+${PLAN_JOIN_POINTS} puntos`);
+      // accessibilityLiveRegion on the Badge below is Android-only —
+      // this announces on iOS too.
+      AccessibilityInfo.announceForAccessibility(`Ganaste ${PLAN_JOIN_POINTS} puntos.`);
+    }
     setPlans((current) =>
-      current.map((plan) =>
-        plan.id === planId
+      current.map((p) =>
+        p.id === planId
           ? {
-              ...plan,
-              isJoined: !plan.isJoined,
-              attendeeCount: plan.attendeeCount + (plan.isJoined ? -1 : 1),
+              ...p,
+              isJoined: !p.isJoined,
+              attendeeCount: p.attendeeCount + (p.isJoined ? -1 : 1),
             }
-          : plan,
+          : p,
       ),
     );
   }
@@ -290,6 +306,9 @@ export default function CommunityScreen() {
             contentContainerStyle={styles.content}
             ListHeaderComponent={
               <View style={styles.headerSection}>
+                {pointsMessage ? (
+                  <Badge label={pointsMessage} variant="success" accessibilityLiveRegion="polite" />
+                ) : null}
                 {isCreateFormOpen ? (
                   <CreatePlanForm
                     onCreate={handleCreate}

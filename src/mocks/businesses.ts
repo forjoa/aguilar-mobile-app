@@ -30,4 +30,18 @@ export const mockBusinesses: Business[] = [
     description: 'Ropa de mujer y complementos, con arreglos de costura.',
     address: 'Calle Molino, 8',
   },
+  {
+    id: 'biz-5',
+    name: 'Peluquería Diana',
+    category: 'Servicios',
+    description: 'Peluquería unisex, coloración y tratamientos capilares.',
+    address: 'Avenida de Andalucía, 22',
+  },
+  {
+    id: 'biz-6',
+    name: 'Electrónica Pascual',
+    category: 'Tecnología',
+    description: 'Accesorios de electrónica y reparación de móviles.',
+    address: 'Calle Cervantes, 15',
+  },
 ];

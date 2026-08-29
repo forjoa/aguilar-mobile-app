@@ -40,7 +40,34 @@ export interface Product {
   photoUrl?: string;
 }
 
+/** One message in a simulated product/business chat — no real messaging backend. */
+export interface ChatMessage {
+  id: ID;
+  sender: 'user' | 'business';
+  text: string;
+}
+
+/** A per-product conversation with a business, seeded with example messages. */
+export interface Conversation {
+  id: ID;
+  businessId: ID;
+  productId: ID;
+  lastMessageDate: string;
+  messages: ChatMessage[];
+}
+
 // --- News and events board (HAS-7) ------------------------------------------
+
+export interface News {
+  id: ID;
+  title: string;
+  /** Short summary shown in the list. */
+  summary: string;
+  /** Full body shown in the detail view. */
+  body: string;
+  category: string;
+  publishedDate: string;
+}
 
 export interface Event {
   id: ID;
@@ -145,9 +172,17 @@ export interface Pharmacy {
   address: string;
   phone: string;
   regularHours: string;
-  /** Only one pharmacy in the mock has this set to `true` for "today". */
-  onDutyToday: boolean;
-  nextShift?: string;
+}
+
+/**
+ * One day of the on-duty rotation: which pharmacy covers that day outside
+ * `regularHours` (nights, Sundays…). See `getPharmacyDutySchedule`, which
+ * computes this relative to today instead of a hardcoded mock so "today's"
+ * pharmacy is always right whenever the app runs.
+ */
+export interface PharmacyDutyShift {
+  date: string;
+  pharmacyId: ID;
 }
 
 // --- Intercity bus schedules (HAS-15) ----------------------------------------
@@ -165,14 +200,26 @@ export interface BusLine {
 
 export type SuggestionStatus = 'received' | 'in_progress' | 'resolved';
 
+export type SuggestionCategory =
+  'street_lighting' | 'cleaning' | 'urban_furniture' | 'noise' | 'suggestion' | 'other';
+
+/** One entry of a suggestion's status history — when it entered that status. */
+export interface SuggestionStatusChange {
+  status: SuggestionStatus;
+  date: string;
+}
+
 export interface Suggestion {
   id: ID;
   referenceNumber: string;
-  category: string;
+  category: SuggestionCategory;
   description: string;
   status: SuggestionStatus;
   submittedDate: string;
-  photoUrl?: string;
+  /** Whether a photo was attached — there's no real picker yet (see README), just this flag. */
+  hasPhoto?: boolean;
+  /** Chronological, starts with 'received' on submittedDate. */
+  statusHistory: SuggestionStatusChange[];
 }
 
 // --- Polls and public consultations (HAS-17) --------------------------------
@@ -203,4 +250,23 @@ export interface CivicPoints {
   userId: ID;
   totalPoints: number;
   history: CivicPointsEntry[];
+}
+
+export type RewardType = 'discount' | 'free_product';
+
+/** A redeemable reward at a local business, from the Comercio local catalog (HAS-11). */
+export interface Reward {
+  id: ID;
+  businessId: ID;
+  title: string;
+  type: RewardType;
+  costPoints: number;
+}
+
+/** A reward already redeemed for points — the resulting simulated coupon. */
+export interface RedeemedCoupon {
+  id: ID;
+  rewardId: ID;
+  code: string;
+  redeemedDate: string;
 }

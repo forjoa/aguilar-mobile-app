@@ -1,4 +1,10 @@
-import { formatDate, formatDateTime, formatRelativeDay, formatTime } from '@/utils/format-date';
+import {
+  formatDate,
+  formatDateTime,
+  formatRelativeDay,
+  formatTime,
+  toDateKey,
+} from '@/utils/format-date';
 
 describe('formatDate', () => {
   it('formats a full ISO date in long Spanish form', () => {
@@ -15,6 +21,12 @@ describe('formatTime', () => {
 describe('formatDateTime', () => {
   it('combines the long date and the time', () => {
     expect(formatDateTime('2026-09-05T20:00:00')).toBe('5 de septiembre de 2026, 20:00');
+  });
+});
+
+describe('toDateKey', () => {
+  it('formats as YYYY-MM-DD, zero-padded', () => {
+    expect(toDateKey(new Date(2026, 0, 5))).toBe('2026-01-05');
   });
 });
 

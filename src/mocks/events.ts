@@ -38,4 +38,22 @@ export const mockEvents: Event[] = [
     location: 'Plaza del Coso',
     interested: false,
   },
+  {
+    id: 'evt-5',
+    title: 'Carrera popular nocturna',
+    description: '5 km por el casco urbano, salida desde la Plaza de San José.',
+    category: 'Deporte',
+    startDate: '2026-09-19T21:30:00',
+    location: 'Plaza de San José',
+    interested: false,
+  },
+  {
+    id: 'evt-6',
+    title: 'Presentación del libro "Aguilar, memoria de un pueblo"',
+    description: 'El autor local Rafael Montes presenta su nueva obra de historia local.',
+    category: 'Cultura',
+    startDate: '2026-09-09T19:30:00',
+    location: 'Biblioteca Municipal',
+    interested: false,
+  },
 ];
