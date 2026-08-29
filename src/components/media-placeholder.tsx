@@ -12,6 +12,13 @@ export type MediaPlaceholderProps = ViewProps & {
   /** `thumbnail`: small square for a list row. `hero`: 16:9, fills its container. */
   size?: MediaPlaceholderSize;
   accessibilityLabel?: string;
+  /**
+   * Set when nested inside an already-labeled interactive element (e.g. a
+   * `Pressable` list row that has its own `accessibilityLabel`) so a screen
+   * reader doesn't announce this thumbnail as a separate, redundant stop.
+   * Defaults to `false` for standalone use (e.g. a detail screen's header).
+   */
+  decorative?: boolean;
 };
 
 /**
@@ -23,6 +30,7 @@ export function MediaPlaceholder({
   emoji,
   size = 'thumbnail',
   accessibilityLabel = 'Imagen ilustrativa',
+  decorative = false,
   style,
   ...rest
 }: MediaPlaceholderProps) {
@@ -35,8 +43,11 @@ export function MediaPlaceholder({
         { backgroundColor: theme.backgroundElement },
         style,
       ]}
-      accessibilityRole="image"
-      accessibilityLabel={accessibilityLabel}
+      accessible={!decorative}
+      accessibilityElementsHidden={decorative}
+      importantForAccessibility={decorative ? 'no-hide-descendants' : 'auto'}
+      accessibilityRole={decorative ? undefined : 'image'}
+      accessibilityLabel={decorative ? undefined : accessibilityLabel}
       {...rest}
     >
       <ThemedText style={size === 'thumbnail' ? styles.thumbnailEmoji : styles.heroEmoji}>

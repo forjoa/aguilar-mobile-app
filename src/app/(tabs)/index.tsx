@@ -51,7 +51,7 @@ function NewsCard({
         accessibilityState={{ expanded }}
         style={({ pressed }) => [styles.cardRow, pressed && styles.pressed]}
       >
-        <MediaPlaceholder emoji={categoryEmoji(item.category)} />
+        <MediaPlaceholder emoji={categoryEmoji(item.category)} decorative />
         <View style={styles.cardTexts}>
           <ThemedText type="default" numberOfLines={2}>
             {item.title}
