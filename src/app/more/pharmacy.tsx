@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FlatList, Linking, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Badge } from '@/components/badge';
@@ -28,6 +28,7 @@ const UPCOMING_SHIFTS = getPharmacyDutySchedule(
 ).map((shift) => ({ shift, pharmacy: PHARMACY_BY_ID.get(shift.pharmacyId)! }));
 
 const TODAY_ON_DUTY: Pharmacy | undefined = UPCOMING_SHIFTS[0]?.pharmacy;
+const NEXT_SHIFTS = UPCOMING_SHIFTS.slice(1);
 
 function TodayOnDutyCard({ pharmacy }: { pharmacy: Pharmacy }) {
   const [directionsOpened, setDirectionsOpened] = useState(false);
@@ -40,7 +41,7 @@ function TodayOnDutyCard({ pharmacy }: { pharmacy: Pharmacy }) {
         </ThemedText>
         <Badge label="Hoy" variant="primary" />
       </View>
-      <ThemedText type="title" style={styles.todayName}>
+      <ThemedText type="subtitle" style={styles.todayName}>
         {pharmacy.name}
       </ThemedText>
       <ThemedText type="default">{pharmacy.address}</ThemedText>
@@ -50,19 +51,19 @@ function TodayOnDutyCard({ pharmacy }: { pharmacy: Pharmacy }) {
       <ThemedText type="small" themeColor="textSecondary">
         Horario habitual: {pharmacy.regularHours}
       </ThemedText>
-      <Button
-        title={directionsOpened ? 'Abriendo mapa (simulado)…' : 'Cómo llegar'}
-        onPress={() => {
-          setDirectionsOpened(true);
-          // Simulated: no real maps integration yet (no-backend phase, see README).
-          Linking.openURL(
-            `https://maps.google.com/?q=${encodeURIComponent(pharmacy.address)}`,
-          ).catch(() => {
-            // Best-effort only — this is a mocked "cómo llegar", not a real requirement.
-          });
-        }}
-        style={styles.directionsButton}
-      />
+      {directionsOpened ? (
+        <Badge
+          label="🗺️ Abriendo mapa (simulado)"
+          variant="success"
+          style={styles.directionsBadge}
+        />
+      ) : (
+        <Button
+          title="Cómo llegar"
+          onPress={() => setDirectionsOpened(true)}
+          style={styles.directionsButton}
+        />
+      )}
     </Card>
   );
 }
@@ -79,7 +80,9 @@ export default function PharmacyScreen() {
           </View>
         ) : (
           <FlatList
-            data={UPCOMING_SHIFTS}
+            // Today's is already shown by TodayOnDutyCard above — this list
+            // covers what comes after it, so there's no duplicate "Hoy" row.
+            data={NEXT_SHIFTS}
             keyExtractor={(entry) => entry.shift.date}
             contentContainerStyle={styles.content}
             ListHeaderComponent={
@@ -88,11 +91,10 @@ export default function PharmacyScreen() {
                 <ThemedText type="smallBold">Próximos turnos de guardia</ThemedText>
               </View>
             }
-            renderItem={({ item, index }) => (
+            renderItem={({ item }) => (
               <ListItem
                 title={`${formatRelativeDay(item.shift.date)} · ${item.pharmacy.name}`}
                 subtitle={item.pharmacy.address}
-                trailing={index === 0 ? <Badge label="Hoy" variant="primary" /> : null}
               />
             )}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -148,12 +150,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   todayName: {
-    fontSize: 24,
-    lineHeight: 28,
     marginBottom: Spacing.one,
   },
   directionsButton: {
     alignSelf: 'flex-start',
+    marginTop: Spacing.two,
+  },
+  directionsBadge: {
     marginTop: Spacing.two,
   },
   separator: {
