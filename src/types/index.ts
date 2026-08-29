@@ -165,6 +165,12 @@ export interface BusLine {
 
 export type SuggestionStatus = 'received' | 'in_progress' | 'resolved';
 
+/** One entry of a suggestion's status history — when it entered that status. */
+export interface SuggestionStatusChange {
+  status: SuggestionStatus;
+  date: string;
+}
+
 export interface Suggestion {
   id: ID;
   referenceNumber: string;
@@ -173,6 +179,8 @@ export interface Suggestion {
   status: SuggestionStatus;
   submittedDate: string;
   photoUrl?: string;
+  /** Chronological, starts with 'received' on submittedDate. */
+  statusHistory: SuggestionStatusChange[];
 }
 
 // --- Polls and public consultations (HAS-17) --------------------------------
