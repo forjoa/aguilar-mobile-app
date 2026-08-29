@@ -23,4 +23,25 @@ export const mockPolls: Poll[] = [
       { id: 'opt-5', text: 'No', votes: 45 },
     ],
   },
+  {
+    id: 'poll-3',
+    question: '¿Qué actividad te gustaría que organizara el Ayuntamiento este otoño?',
+    active: true,
+    closingDate: '2026-09-30',
+    options: [
+      { id: 'opt-6', text: 'Ruta de senderismo por la Laguna de Zóñar', votes: 40 },
+      { id: 'opt-7', text: 'Taller de cata de aceite', votes: 27 },
+      { id: 'opt-8', text: 'Cine de verano al aire libre', votes: 33 },
+    ],
+  },
+  {
+    id: 'poll-4',
+    question: '¿Debería habilitarse un carril bici en la Avenida de Andalucía?',
+    active: false,
+    closingDate: '2026-07-10',
+    options: [
+      { id: 'opt-9', text: 'Sí', votes: 128 },
+      { id: 'opt-10', text: 'No', votes: 96 },
+    ],
+  },
 ];
