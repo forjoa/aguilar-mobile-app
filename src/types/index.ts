@@ -40,6 +40,22 @@ export interface Product {
   photoUrl?: string;
 }
 
+/** One message in a simulated product/business chat — no real messaging backend. */
+export interface ChatMessage {
+  id: ID;
+  sender: 'user' | 'business';
+  text: string;
+}
+
+/** A per-product conversation with a business, seeded with example messages. */
+export interface Conversation {
+  id: ID;
+  businessId: ID;
+  productId: ID;
+  lastMessageDate: string;
+  messages: ChatMessage[];
+}
+
 // --- News and events board (HAS-7) ------------------------------------------
 
 export interface Event {
