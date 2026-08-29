@@ -13,9 +13,9 @@ export type EmptyStateProps = ViewProps & {
 };
 
 /**
- * Estado vacío reutilizable para listas/pantallas de un módulo (p. ej. "Todavía
- * no hay comercios apuntados"). No es una pantalla completa como
- * `PlaceholderScreen` — se embebe dentro del contenido de una pantalla real.
+ * Reusable empty state for a module's lists/screens (e.g. "No businesses
+ * joined yet"). Not a full screen like `PlaceholderScreen` — it's embedded
+ * within a real screen's content.
  */
 export function EmptyState({
   emoji = '🗒️',

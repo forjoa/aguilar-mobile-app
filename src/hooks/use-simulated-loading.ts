@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Estado de carga simulado para que las pantallas muestren un `LoadingSpinner`
- * realista aunque no haya red de por medio (fase sin backend, ver README).
- * Empieza en `true` y pasa a `false` a los `delayMs` (600 ms por defecto).
+ * Simulated loading state so screens show a realistic `LoadingSpinner` even
+ * though there's no network involved (no-backend phase, see README). Starts
+ * as `true` and flips to `false` after `delayMs` (600 ms by default).
  */
 export function useSimulatedLoading(delayMs = 600): boolean {
   const [isLoading, setIsLoading] = useState(true);

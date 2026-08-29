@@ -8,17 +8,17 @@ import { useTheme } from '@/hooks/use-theme';
 const GRID_LINES = [0.25, 0.5, 0.75] as const;
 
 export type MapBackgroundProps = ViewProps & {
-  /** Contenido superpuesto (marcadores, chinchetas…) una vez haya datos reales. */
+  /** Overlaid content (markers, pins…) once there's real data. */
   children?: ReactNode;
   accessibilityLabel?: string;
 };
 
 /**
- * Fondo de mapa básico y puramente visual — sin datos geográficos reales.
- * Pensado como base reutilizable para Incidencias (HAS-8) y, si aplica,
- * Autobús/rutas (HAS-15) mientras no haya una librería de mapas integrada;
- * cuando la haya, ese módulo puede sustituir el fondo sin tocar el resto del
- * layout de su pantalla.
+ * Basic, purely visual map background — no real geographic data. Meant as a
+ * reusable base for Incidents (HAS-8) and, if applicable, Bus/routes
+ * (HAS-15) while there's no map library integrated; once there is, that
+ * module can swap the background without touching the rest of its screen's
+ * layout.
  */
 export function MapBackground({
   children,

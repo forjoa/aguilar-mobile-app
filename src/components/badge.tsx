@@ -4,8 +4,8 @@ import { ThemedText } from '@/components/themed-text';
 import { Radius, Spacing, ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-// También sirve como "chip": misma pastilla de etiqueta, distinto contexto de uso
-// (estado de una incidencia/sugerencia vs. categoría/filtro seleccionable).
+// Also doubles as a "chip": same label pill, different usage context
+// (an incident/suggestion status vs. a selectable category/filter).
 export type BadgeVariant = 'neutral' | 'primary' | 'success' | 'warning' | 'danger';
 
 export type BadgeProps = ViewProps & {

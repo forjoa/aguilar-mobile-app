@@ -16,10 +16,10 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Colors, Radius, Spacing, type ThemeColor } from '@/constants/theme';
 
-// Catálogo visual del sistema de diseño de HAS-6 — no forma parte de la
-// navegación de la app (no hay tab ni entrada en "Más"): es documentación
-// viva para el equipo, se abre navegando directamente a `/design-system`
-// (p. ej. con `npx expo start --web`).
+// Visual catalog of the HAS-6 design system — not part of the app's
+// navigation (no tab, no entry in "Más"): it's living documentation for the
+// team, opened by navigating directly to `/design-system` (e.g. with
+// `npx expo start --web`).
 
 const PALETTE: { key: ThemeColor; label: string }[] = [
   { key: 'primary', label: 'primary' },
@@ -51,16 +51,16 @@ export default function DesignSystemScreen() {
       <SafeAreaView style={styles.safeArea}>
         <ScrollView contentContainerStyle={styles.content}>
           <ScreenHeader
-            title="Guía de estilo"
-            subtitle="HAS-6 — tema, componentes base y mocks compartidos"
+            title="Style Guide"
+            subtitle="HAS-6 — theme, base components and shared mocks"
             action={
               router.canGoBack() ? (
-                <Button title="Cerrar" variant="ghost" onPress={() => router.back()} />
+                <Button title="Close" variant="ghost" onPress={() => router.back()} />
               ) : undefined
             }
           />
 
-          <Section title="Colores">
+          <Section title="Colors">
             <View style={styles.swatchRow}>
               {PALETTE.map(({ key, label }) => (
                 <View key={key} style={styles.swatchItem}>
@@ -71,7 +71,7 @@ export default function DesignSystemScreen() {
             </View>
           </Section>
 
-          <Section title="Tipografía">
+          <Section title="Typography">
             <ThemedText type="title">Title</ThemedText>
             <ThemedText type="subtitle">Subtitle</ThemedText>
             <ThemedText type="default">Default body text</ThemedText>

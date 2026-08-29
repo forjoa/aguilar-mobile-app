@@ -14,7 +14,7 @@ const SIZE_BY_PRESET = {
 } as const;
 
 export type AvatarProps = {
-  /** Nombre completo, usado como fallback de iniciales y como accessibilityLabel. */
+  /** Full name, used as the initials fallback and as the accessibilityLabel. */
   name: string;
   source?: ImageSource | string;
   size?: keyof typeof SIZE_BY_PRESET;

@@ -1,8 +1,7 @@
-// Utilidades de formateo de fechas/horas compartidas por los módulos. Trabajan
-// sobre `Date` o strings ISO 8601 completos (p. ej. `evento.fechaInicio`).
-// Los campos que un mock ya guarda listos para mostrarse (p. ej.
-// `cita.hora === '10:30'`) no pasan por aquí — ya están en formato de
-// presentación.
+// Date/time formatting helpers shared across modules. They work on a `Date`
+// or a full ISO 8601 string (e.g. `event.startDate`). Fields a mock already
+// stores display-ready (e.g. `appointment.time === '10:30'`) don't go through
+// here — they're already in presentation format.
 
 const LOCALE = 'es-ES';
 
@@ -19,7 +18,7 @@ export function formatDate(value: string | Date): string {
   }).format(toDate(value));
 }
 
-/** "20:00" (24 h, independientemente de la configuración regional del dispositivo). */
+/** "20:00" (24 h, regardless of the device's regional settings). */
 export function formatTime(value: string | Date): string {
   return new Intl.DateTimeFormat(LOCALE, {
     hour: '2-digit',
@@ -42,8 +41,8 @@ function isSameCalendarDay(a: Date, b: Date): boolean {
 }
 
 /**
- * "Hoy" / "Mañana" si `value` cae en esos días respecto a `now`, o la fecha
- * larga formateada en cualquier otro caso. `now` es inyectable para tests.
+ * "Hoy" / "Mañana" if `value` falls on those days relative to `now`, or the
+ * formatted long date otherwise. `now` is injectable for tests.
  */
 export function formatRelativeDay(value: string | Date, now: Date = new Date()): string {
   const date = toDate(value);
