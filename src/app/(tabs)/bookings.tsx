@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Badge } from '@/components/badge';
@@ -130,16 +130,22 @@ export default function BookingsScreen() {
                 label="Reservar"
                 selected={view === 'book'}
                 onPress={() => setView('book')}
+                accessibilityLabel="Ver formulario de reserva"
               />
               <FilterChip
                 label="Mis reservas"
                 selected={view === 'my-bookings'}
                 onPress={() => setView('my-bookings')}
+                accessibilityLabel="Ver mis reservas"
               />
             </View>
 
             {view === 'book' ? (
-              <View style={styles.wizard}>
+              <ScrollView
+                style={styles.wizardScroll}
+                contentContainerStyle={styles.wizard}
+                keyboardShouldPersistTaps="handled"
+              >
                 {step !== 'facility' ? (
                   <Button
                     title="Atrás"
@@ -251,7 +257,7 @@ export default function BookingsScreen() {
                     />
                   </Card>
                 ) : null}
-              </View>
+              </ScrollView>
             ) : (
               <FlatList
                 data={myBookings}
@@ -285,7 +291,14 @@ export default function BookingsScreen() {
                           title="Cancelar reserva"
                           variant="secondary"
                           onPress={() => handleCancelBooking(item.id)}
-                          style={styles.cancelButton}
+                          style={[
+                            styles.cancelButton,
+                            {
+                              backgroundColor: theme.background,
+                              borderColor: theme.border,
+                              borderWidth: 1,
+                            },
+                          ]}
                         />
                       ) : null}
                     </Card>
@@ -320,6 +333,9 @@ const styles = StyleSheet.create({
   viewSwitch: {
     flexDirection: 'row',
     gap: Spacing.one,
+  },
+  wizardScroll: {
+    flex: 1,
   },
   wizard: {
     gap: Spacing.three,
