@@ -251,3 +251,22 @@ export interface CivicPoints {
   totalPoints: number;
   history: CivicPointsEntry[];
 }
+
+export type RewardType = 'discount' | 'free_product';
+
+/** A redeemable reward at a local business, from the Comercio local catalog (HAS-11). */
+export interface Reward {
+  id: ID;
+  businessId: ID;
+  title: string;
+  type: RewardType;
+  costPoints: number;
+}
+
+/** A reward already redeemed for points — the resulting simulated coupon. */
+export interface RedeemedCoupon {
+  id: ID;
+  rewardId: ID;
+  code: string;
+  redeemedDate: string;
+}
