@@ -4,7 +4,7 @@ import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export type CardProps = ViewProps & {
-  /** Si se pasa, la Card entera se vuelve pulsable (accesible como botón). */
+  /** When passed, the whole Card becomes pressable (accessible as a button). */
   onPress?: () => void;
   accessibilityLabel?: string;
 };

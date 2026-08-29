@@ -1,203 +1,206 @@
-// Modelos de datos compartidos entre módulos. Cada entidad tiene su mock de
-// ejemplo en el archivo equivalente de `src/mocks/` (p. ej. `Comercio` en
-// `src/mocks/comercios.ts`). Definidos en HAS-6 (Sistema de diseño, componentes
-// base y mocks compartidos) para que cada issue de módulo solo tenga que
-// consumirlos, no diseñarlos desde cero.
+// Shared data models across modules. Each entity has its example mock in the
+// matching file under `src/mocks/` (e.g. `Business` in `src/mocks/businesses.ts`).
+// Defined in HAS-6 (Design system, base components and shared mocks) so every
+// module issue only has to consume them, not design them from scratch.
 //
-// Las fechas se representan como strings ISO 8601 (`new Date(fecha)` para
-// formatearlas con las utilidades de `src/utils/format-date.ts`).
+// Dates are represented as ISO 8601 strings (`new Date(date)` to format them
+// with the helpers in `src/utils/format-date.ts`).
+//
+// Field names and type identifiers are English (see AGENTS.md §2); the actual
+// mock data values stay in Spanish where they are rendered as-is to the app's
+// end users (a business name, an address, a description).
 
 export type ID = string;
 
-/** Usuario genérico de la app — organizador de un plan, autor de una sugerencia, etc. */
-export interface Usuario {
+/** Generic app user — a plan organizer, a suggestion author, etc. */
+export interface User {
   id: ID;
-  nombre: string;
+  name: string;
   avatarUrl?: string;
 }
 
-// --- Comercio local (HAS-11) ---------------------------------------------
+// --- Local business (HAS-11) -----------------------------------------------
 
-export interface Comercio {
+export interface Business {
   id: ID;
-  nombre: string;
-  categoria: string;
-  descripcion: string;
-  direccion: string;
+  name: string;
+  category: string;
+  description: string;
+  address: string;
   logoUrl?: string;
 }
 
-export interface Producto {
+export interface Product {
   id: ID;
-  comercioId: ID;
-  nombre: string;
-  precio: number;
-  descripcion: string;
-  disponible: boolean;
-  fotoUrl?: string;
+  businessId: ID;
+  name: string;
+  price: number;
+  description: string;
+  available: boolean;
+  photoUrl?: string;
 }
 
-// --- Tablón de noticias y eventos (HAS-7) ---------------------------------
+// --- News and events board (HAS-7) ------------------------------------------
 
-export interface Evento {
+export interface Event {
   id: ID;
-  titulo: string;
-  descripcion: string;
-  categoria: string;
-  fechaInicio: string;
-  lugar: string;
-  imagenUrl?: string;
-  /** Estado inicial simulado del botón "Me interesa" en el mock. */
-  meInteresa: boolean;
+  title: string;
+  description: string;
+  category: string;
+  startDate: string;
+  location: string;
+  imageUrl?: string;
+  /** Simulated initial state of the "I'm interested" button in the mock. */
+  interested: boolean;
 }
 
-// --- Mapa de incidencias (HAS-8) ------------------------------------------
+// --- Incident map (HAS-8) ----------------------------------------------------
 
-export type EstadoIncidencia = 'activa' | 'resuelta';
-export type TipoIncidencia = 'obra' | 'corte_trafico' | 'averia' | 'otro';
+export type IncidentStatus = 'active' | 'resolved';
+export type IncidentType = 'roadwork' | 'traffic_closure' | 'utility_fault' | 'other';
 
-export interface Incidencia {
+export interface Incident {
   id: ID;
-  tipo: TipoIncidencia;
-  descripcion: string;
-  direccion: string;
-  fecha: string;
-  estado: EstadoIncidencia;
-  coordenadas: { lat: number; lng: number };
+  type: IncidentType;
+  description: string;
+  address: string;
+  date: string;
+  status: IncidentStatus;
+  coordinates: { lat: number; lng: number };
 }
 
-// --- Comunidad: planes entre vecinos (HAS-10) -----------------------------
+// --- Community: neighbor plans (HAS-10) -------------------------------------
 
-export interface PlanComunidad {
+export interface CommunityPlan {
   id: ID;
-  titulo: string;
-  descripcion: string;
-  categoria: string;
-  organizador: string;
-  fecha: string;
-  apuntados: number;
-  /** El vecino que ve el mock ya está apuntado o no (toggle local). */
-  estoyApuntado: boolean;
+  title: string;
+  description: string;
+  category: string;
+  organizer: string;
+  date: string;
+  attendeeCount: number;
+  /** Whether the neighbor viewing the mock is already joined (local toggle). */
+  isJoined: boolean;
 }
 
-// --- Reservas del polideportivo municipal (HAS-9) -------------------------
+// --- Municipal sports facility bookings (HAS-9) -----------------------------
 
-export type TipoInstalacion = 'padel' | 'futbol_sala' | 'tenis';
+export type FacilityType = 'padel' | 'five_a_side_football' | 'tennis';
 
-export interface Instalacion {
+export interface Facility {
   id: ID;
-  nombre: string;
-  tipo: TipoInstalacion;
-  descripcion: string;
-  fotoUrl?: string;
+  name: string;
+  type: FacilityType;
+  description: string;
+  photoUrl?: string;
 }
 
-export type EstadoReserva = 'confirmada' | 'cancelada';
+export type BookingStatus = 'confirmed' | 'cancelled';
 
-export interface Reserva {
+export interface Booking {
   id: ID;
-  instalacionId: ID;
-  fecha: string;
-  horaInicio: string;
-  horaFin: string;
-  estado: EstadoReserva;
+  facilityId: ID;
+  date: string;
+  startTime: string;
+  endTime: string;
+  status: BookingStatus;
 }
 
-// --- Citas para trámites en el ayuntamiento (HAS-12) ----------------------
+// --- Town hall procedure appointments (HAS-12) ------------------------------
 
-export type EstadoCita = 'confirmada' | 'cancelada';
+export type AppointmentStatus = 'confirmed' | 'cancelled';
 
-export interface Cita {
+export interface Appointment {
   id: ID;
-  tramite: string;
-  fecha: string;
-  hora: string;
-  solicitanteNombre: string;
-  solicitanteContacto: string;
-  estado: EstadoCita;
+  procedure: string;
+  date: string;
+  time: string;
+  applicantName: string;
+  applicantContact: string;
+  status: AppointmentStatus;
 }
 
-// --- Bolsa de empleo local (HAS-13) ---------------------------------------
+// --- Local job board (HAS-13) -----------------------------------------------
 
-export type TipoOferta = 'privado' | 'ayuntamiento';
+export type JobOfferType = 'private' | 'council';
 
-export interface OfertaEmpleo {
+export interface JobOffer {
   id: ID;
-  puesto: string;
-  entidad: string;
-  tipo: TipoOferta;
+  position: string;
+  company: string;
+  type: JobOfferType;
   sector: string;
-  tipoJornada: string;
-  descripcion: string;
-  requisitos: string;
-  comoInscribirse: string;
-  fechaPublicacion: string;
+  scheduleType: string;
+  description: string;
+  requirements: string;
+  howToApply: string;
+  publishedDate: string;
 }
 
-// --- Farmacia de guardia (HAS-14) -----------------------------------------
+// --- On-duty pharmacy (HAS-14) -----------------------------------------------
 
-export interface Farmacia {
+export interface Pharmacy {
   id: ID;
-  nombre: string;
-  direccion: string;
-  telefono: string;
-  horarioHabitual: string;
-  /** Solo una farmacia del mock tiene esto a `true` para "hoy". */
-  deGuardiaHoy: boolean;
-  proximoTurno?: string;
+  name: string;
+  address: string;
+  phone: string;
+  regularHours: string;
+  /** Only one pharmacy in the mock has this set to `true` for "today". */
+  onDutyToday: boolean;
+  nextShift?: string;
 }
 
-// --- Horarios de autobús interurbano (HAS-15) -----------------------------
+// --- Intercity bus schedules (HAS-15) ----------------------------------------
 
-export interface LineaAutobus {
+export interface BusLine {
   id: ID;
-  origen: string;
-  destino: string;
-  paradasIntermedias: string[];
-  horariosLaborables: string[];
-  horariosFestivos: string[];
+  origin: string;
+  destination: string;
+  intermediateStops: string[];
+  weekdaySchedule: string[];
+  weekendSchedule: string[];
 }
 
-// --- Buzón de quejas y sugerencias (HAS-16) -------------------------------
+// --- Complaints and suggestions box (HAS-16) --------------------------------
 
-export type EstadoSugerencia = 'recibido' | 'en_proceso' | 'resuelto';
+export type SuggestionStatus = 'received' | 'in_progress' | 'resolved';
 
-export interface Sugerencia {
+export interface Suggestion {
   id: ID;
-  numeroReferencia: string;
-  categoria: string;
-  descripcion: string;
-  estado: EstadoSugerencia;
-  fechaEnvio: string;
-  fotoUrl?: string;
+  referenceNumber: string;
+  category: string;
+  description: string;
+  status: SuggestionStatus;
+  submittedDate: string;
+  photoUrl?: string;
 }
 
-// --- Encuestas y consultas populares (HAS-17) -----------------------------
+// --- Polls and public consultations (HAS-17) --------------------------------
 
-export interface OpcionEncuesta {
+export interface PollOption {
   id: ID;
-  texto: string;
-  votos: number;
+  text: string;
+  votes: number;
 }
 
-export interface Encuesta {
+export interface Poll {
   id: ID;
-  pregunta: string;
-  opciones: OpcionEncuesta[];
-  activa: boolean;
-  fechaCierre: string;
+  question: string;
+  options: PollOption[];
+  active: boolean;
+  closingDate: string;
 }
 
-// --- Gamificación: puntos por civismo (HAS-18) ----------------------------
+// --- Gamification: civic points (HAS-18) ------------------------------------
 
-export interface MovimientoPuntosCivicos {
-  motivo: string;
-  puntos: number;
-  fecha: string;
+export interface CivicPointsEntry {
+  reason: string;
+  points: number;
+  date: string;
 }
 
-export interface PuntosCivicos {
-  usuarioId: ID;
-  totalPuntos: number;
-  historial: MovimientoPuntosCivicos[];
+export interface CivicPoints {
+  userId: ID;
+  totalPoints: number;
+  history: CivicPointsEntry[];
 }

@@ -7,13 +7,13 @@ import { Spacing } from '@/constants/theme';
 export type ScreenHeaderProps = ViewProps & {
   title: string;
   subtitle?: string;
-  /** Slot para una acción a la derecha (p. ej. un icono de filtro). */
+  /** Slot for a right-side action (e.g. a filter icon). */
   action?: ReactNode;
 };
 
 /**
- * Cabecera de contenido para el cuerpo de una pantalla (no sustituye la barra
- * de navegación nativa de Expo Router) — título + subtítulo opcional + acción.
+ * Content header for a screen's body (does not replace Expo Router's native
+ * navigation bar) — title + optional subtitle + action.
  */
 export function ScreenHeader({ title, subtitle, action, style, ...rest }: ScreenHeaderProps) {
   return (

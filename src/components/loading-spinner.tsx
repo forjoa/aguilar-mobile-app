@@ -5,7 +5,7 @@ import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export type LoadingSpinnerProps = ViewProps & {
-  /** Texto opcional bajo el spinner (p. ej. "Cargando comercios…"). */
+  /** Optional text below the spinner (e.g. "Cargando comercios…"). */
   label?: string;
   size?: 'small' | 'large';
 };

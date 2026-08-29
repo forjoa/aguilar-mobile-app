@@ -1,7 +1,7 @@
 /**
- * Iniciales para el fallback de un Avatar sin foto: primera letra del primer
- * nombre y primera letra del último apellido (o solo la primera si hay una
- * única palabra). Tolera espacios extra y cadenas vacías.
+ * Initials for an Avatar's photo-less fallback: first letter of the first
+ * name and first letter of the last surname (or just the first one if
+ * there's a single word). Tolerates extra whitespace and empty strings.
  */
 export function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);

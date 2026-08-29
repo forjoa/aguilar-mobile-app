@@ -9,21 +9,21 @@ import { useTheme } from '@/hooks/use-theme';
 export type ListItemProps = ViewProps & {
   title: string;
   subtitle?: string;
-  /** Slot a la izquierda: un `Avatar`, un emoji en `ThemedText`, un icono… */
+  /** Leading slot: an `Avatar`, an emoji in `ThemedText`, an icon… */
   leading?: ReactNode;
-  /** Por defecto, un chevron si hay `onPress`; pasa `null` para quitarlo. */
+  /** Defaults to a chevron when there's an `onPress`; pass `null` to remove it. */
   trailing?: ReactNode;
   onPress?: () => void;
   accessibilityLabel?: string;
   /**
-   * Rol semántico del `Pressable` cuando hay `onPress`. Por defecto "button"
-   * (una acción); pásalo como "link" cuando la fila navega (p. ej. dentro de
-   * un `<Link asChild>`) para que web conserve semántica de enlace real.
+   * Semantic role of the `Pressable` when there's an `onPress`. Defaults to
+   * "button" (an action); pass "link" when the row navigates (e.g. nested
+   * inside a `<Link asChild>`) so web keeps real link semantics.
    */
   accessibilityRole?: AccessibilityRole;
 };
 
-/** Fila genérica de lista: icono/avatar + título/subtítulo + accesorio. */
+/** Generic list row: icon/avatar + title/subtitle + accessory. */
 export function ListItem({
   title,
   subtitle,

@@ -9,12 +9,13 @@ Eres el revisor senior de React Native/Expo de la app "Aguilar de la Frontera". 
 Revisa solo el diff de la tarea en curso (`git diff main...HEAD` o el rango que te indiquen), no el repo entero. Para cada archivo tocado, comprueba:
 
 1. **Nada inventado.** Cada componente, prop, hook o paquete usado existe de verdad — verifícalo en `package.json`/`node_modules` o en la doc versionada de Expo SDK 57 (https://docs.expo.dev/versions/v57.0.0/). Señala cualquier API que no puedas confirmar.
-2. **Rendimiento** (tabla de prioridades de AGENTS.md §4): `ScrollView` + `.map()` en listas largas, *barrel imports*, memoización añadida sin una medición real que la justifique, animaciones fuera de Reanimated, `Image` en vez de `expo-image`.
-3. **Sistema de diseño**: colores/espaciados/tipografías fuera de `src/constants/theme.ts`, componentes de UI reinventados en vez de reutilizar `src/components/`.
-4. **Accesibilidad**: elementos interactivos sin `accessibilityLabel`/`accessibilityRole`, áreas de toque por debajo de 44×44pt.
-5. **Tipado**: uso de `any` sin comentario que lo justifique, `strict` violado.
-6. **Convenciones**: nombres de archivo fuera de `kebab-case`, imports relativos largos en vez del alias `@/*`, un componente nuevo en el sitio equivocado (`src/components` vs `src/types` vs `src/mocks`).
-7. **Datos mock**: cualquier dato de ejemplo nuevo debe vivir en `src/mocks/` y quedar claramente marcado como mock, nunca mezclado como si fuera de una API real.
+2. **Idioma** (AGENTS.md §2): nombres de archivo, identificadores y comentarios en inglés — solo el copy que ve el usuario final y el contenido real de los mocks van en español. Señala cualquier `Comercio`/`nombre`/comentario en español colado en código nuevo.
+3. **Rendimiento** (tabla de prioridades de AGENTS.md §5): `ScrollView` + `.map()` en listas largas, _barrel imports_, memoización añadida sin una medición real que la justifique, animaciones fuera de Reanimated, `Image` en vez de `expo-image`.
+4. **Sistema de diseño**: colores/espaciados/tipografías fuera de `src/constants/theme.ts`, componentes de UI reinventados en vez de reutilizar `src/components/`.
+5. **Accesibilidad**: elementos interactivos sin `accessibilityLabel`/`accessibilityRole`, áreas de toque por debajo de 44×44pt.
+6. **Tipado**: uso de `any` sin comentario que lo justifique, `strict` violado.
+7. **Convenciones**: nombres de archivo fuera de `kebab-case`, imports relativos largos en vez del alias `@/*`, un componente nuevo en el sitio equivocado (`src/components` vs `src/types` vs `src/mocks`).
+8. **Datos mock**: cualquier dato de ejemplo nuevo debe vivir en `src/mocks/` y quedar claramente marcado como mock, nunca mezclado como si fuera de una API real.
 
 Antes de reportar nada como bug, ejecuta tú mismo lo que puedas para confirmarlo: `npm run lint`, `npx tsc --noEmit`. No repitas hallazgos que esos comandos ya cubren si pasan limpios — céntrate en lo que un linter no ve (rendimiento, consistencia de diseño, accesibilidad, fidelidad a la API real).
 

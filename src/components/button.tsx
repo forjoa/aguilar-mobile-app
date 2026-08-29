@@ -16,9 +16,9 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 export type ButtonProps = Omit<PressableProps, 'children' | 'style'> & {
   title: string;
   variant?: ButtonVariant;
-  /** Estado de carga: deshabilita el botón y muestra un spinner en vez del texto. */
+  /** Loading state: disables the button and shows a spinner instead of the text. */
   loading?: boolean;
-  /** Estilo de layout externo (p. ej. `marginTop`) — se aplica encima del variant. */
+  /** External layout style (e.g. `marginTop`) — applied on top of the variant. */
   style?: StyleProp<ViewStyle>;
 };
 
