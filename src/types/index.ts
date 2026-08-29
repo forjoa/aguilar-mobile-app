@@ -165,6 +165,9 @@ export interface BusLine {
 
 export type SuggestionStatus = 'received' | 'in_progress' | 'resolved';
 
+export type SuggestionCategory =
+  'street_lighting' | 'cleaning' | 'urban_furniture' | 'noise' | 'suggestion' | 'other';
+
 /** One entry of a suggestion's status history — when it entered that status. */
 export interface SuggestionStatusChange {
   status: SuggestionStatus;
@@ -174,11 +177,12 @@ export interface SuggestionStatusChange {
 export interface Suggestion {
   id: ID;
   referenceNumber: string;
-  category: string;
+  category: SuggestionCategory;
   description: string;
   status: SuggestionStatus;
   submittedDate: string;
-  photoUrl?: string;
+  /** Whether a photo was attached — there's no real picker yet (see README), just this flag. */
+  hasPhoto?: boolean;
   /** Chronological, starts with 'received' on submittedDate. */
   statusHistory: SuggestionStatusChange[];
 }

@@ -13,23 +13,25 @@ import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { mockSuggestions } from '@/mocks/suggestions';
-import type { Suggestion, SuggestionStatus } from '@/types';
-import { formatDate } from '@/utils/format-date';
+import type { Suggestion, SuggestionCategory, SuggestionStatus } from '@/types';
+import { formatDate, toDateKey } from '@/utils/format-date';
 
-const CATEGORIES = ['Alumbrado', 'Limpieza', 'Mobiliario urbano', 'Ruidos', 'Sugerencia', 'Otros'];
+const CATEGORY_INFO: Record<SuggestionCategory, { label: string }> = {
+  street_lighting: { label: 'Alumbrado' },
+  cleaning: { label: 'Limpieza' },
+  urban_furniture: { label: 'Mobiliario urbano' },
+  noise: { label: 'Ruidos' },
+  suggestion: { label: 'Sugerencia' },
+  other: { label: 'Otros' },
+};
+
+const CATEGORY_OPTIONS = Object.keys(CATEGORY_INFO) as SuggestionCategory[];
 
 const STATUS_INFO: Record<SuggestionStatus, { label: string; variant: BadgeVariant }> = {
   received: { label: 'Recibido', variant: 'neutral' },
   in_progress: { label: 'En proceso', variant: 'warning' },
   resolved: { label: 'Resuelto', variant: 'success' },
 };
-
-function toDateKey(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
 
 function generateReferenceNumber(): string {
   const year = new Date().getFullYear();
@@ -38,7 +40,7 @@ function generateReferenceNumber(): string {
 }
 
 function SubmissionForm({ onSubmitted }: { onSubmitted: (suggestion: Suggestion) => void }) {
-  const [category, setCategory] = useState<string | null>(null);
+  const [category, setCategory] = useState<SuggestionCategory | null>(null);
   const [description, setDescription] = useState('');
   const [hasPhoto, setHasPhoto] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -75,10 +77,10 @@ function SubmissionForm({ onSubmitted }: { onSubmitted: (suggestion: Suggestion)
         Categoría
       </ThemedText>
       <View style={styles.chipRow}>
-        {CATEGORIES.map((option) => (
+        {CATEGORY_OPTIONS.map((option) => (
           <FilterChip
             key={option}
-            label={option}
+            label={CATEGORY_INFO[option].label}
             selected={category === option}
             onPress={() => setCategory(option)}
           />
@@ -141,7 +143,7 @@ function SubmissionForm({ onSubmitted }: { onSubmitted: (suggestion: Suggestion)
             description: description.trim(),
             status: 'received',
             submittedDate: today,
-            photoUrl: hasPhoto ? 'mock://photo-adjuntada' : undefined,
+            hasPhoto,
             statusHistory: [{ status: 'received', date: today }],
           };
           setConfirmation(newSuggestion);
@@ -175,7 +177,7 @@ function SuggestionCard({
       >
         <View style={styles.cardHeader}>
           <View style={styles.cardTitles}>
-            <ThemedText type="default">{suggestion.category}</ThemedText>
+            <ThemedText type="default">{CATEGORY_INFO[suggestion.category].label}</ThemedText>
             <ThemedText type="small" themeColor="textSecondary">
               {suggestion.referenceNumber}
             </ThemedText>
@@ -193,7 +195,7 @@ function SuggestionCard({
 
       {expanded ? (
         <View style={styles.details}>
-          {suggestion.photoUrl ? <Badge label="📷 Con foto adjunta" /> : null}
+          {suggestion.hasPhoto ? <Badge label="📷 Con foto adjunta" /> : null}
           <ThemedText type="smallBold">Histórico de estados</ThemedText>
           {suggestion.statusHistory.map((change, index) => (
             <View key={`${change.status}-${change.date}`} style={styles.historyRow}>
@@ -250,11 +252,7 @@ export default function SuggestionsScreen() {
             </View>
 
             {view === 'send' ? (
-              <SubmissionForm
-                onSubmitted={(newSuggestion) => {
-                  handleSubmitted(newSuggestion);
-                }}
-              />
+              <SubmissionForm onSubmitted={handleSubmitted} />
             ) : (
               <FlatList
                 data={sortedSuggestions}
