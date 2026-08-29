@@ -1,0 +1,86 @@
+// Mock data — News. Not sourced from any real API (see README, no-backend phase).
+import type { News } from '@/types';
+
+export const mockNews: News[] = [
+  {
+    id: 'news-1',
+    title: 'El Ayuntamiento renueva el alumbrado de la Calle Real',
+    summary:
+      'Más de 40 farolas cambian a LED para reducir el consumo energético del casco histórico.',
+    body: 'El Ayuntamiento ha completado la sustitución de 42 puntos de luz en la Calle Real por tecnología LED de bajo consumo. La actuación, financiada con fondos municipales, reducirá el gasto eléctrico de la zona en torno a un 60% y mejorará la iluminación nocturna de una de las calles más transitadas del pueblo.',
+    category: 'Institucional',
+    publishedDate: '2026-08-25',
+  },
+  {
+    id: 'news-2',
+    title: 'Vuelve la Feria de la Tapa a la Plaza de España',
+    summary: 'Doce bares del pueblo participan este año con una tapa y una bebida a precio único.',
+    body: 'La Feria de la Tapa regresa un año más a la Plaza de España con la participación de doce establecimientos hosteleros locales. Cada tapa, acompañada de una bebida, tendrá un precio único de 2,50 €. La organización espera superar la afluencia del año pasado gracias a la ampliación del horario hasta la medianoche.',
+    category: 'Cultura',
+    publishedDate: '2026-08-27',
+  },
+  {
+    id: 'news-3',
+    title: 'El polideportivo municipal amplía su horario de verano',
+    summary: 'Las pistas de pádel y tenis abrirán hasta las 23:00 durante julio y agosto.',
+    body: 'Debido a la alta demanda estival, el polideportivo municipal amplía su horario de apertura hasta las 23:00 horas en las pistas de pádel y tenis durante julio y agosto. La medida busca facilitar la práctica deportiva evitando las horas de más calor.',
+    category: 'Deporte',
+    publishedDate: '2026-08-20',
+  },
+  {
+    id: 'news-4',
+    title: 'Comienza la campaña de recogida de aceite usado',
+    summary: 'Nuevos contenedores en cinco puntos del pueblo para reciclar aceite doméstico.',
+    body: 'El Ayuntamiento, en colaboración con una cooperativa local, instala cinco nuevos contenedores para la recogida de aceite doméstico usado. Los puntos se ubican junto a los principales centros de salud y colegios. El aceite recogido se destinará a la producción de biodiésel.',
+    category: 'Medio ambiente',
+    publishedDate: '2026-08-18',
+  },
+  {
+    id: 'news-5',
+    title: 'La Biblioteca Municipal estrena club de lectura juvenil',
+    summary: 'Jóvenes de 12 a 16 años podrán apuntarse gratis a partir de septiembre.',
+    body: 'La Biblioteca Municipal pone en marcha un club de lectura dirigido a jóvenes de entre 12 y 16 años. Las sesiones, quincenales y gratuitas, comenzarán en septiembre y estarán dinamizadas por el personal de la biblioteca. Las plazas son limitadas.',
+    category: 'Cultura',
+    publishedDate: '2026-08-15',
+  },
+  {
+    id: 'news-6',
+    title: 'Pleno extraordinario para aprobar el presupuesto de 2027',
+    summary: 'La sesión será abierta al público el próximo lunes en el Salón de Plenos.',
+    body: 'El Ayuntamiento convoca un pleno extraordinario para debatir y votar el presupuesto municipal de 2027. La sesión, abierta a la ciudadanía, se celebrará en el Salón de Plenos y podrá seguirse también en directo desde la web municipal.',
+    category: 'Institucional',
+    publishedDate: '2026-08-22',
+  },
+  {
+    id: 'news-7',
+    title: 'Nueva rotonda en la entrada del polígono industrial',
+    summary: 'Las obras finalizan tres semanas antes de lo previsto y mejoran la seguridad vial.',
+    body: 'Las obras de la nueva rotonda en el acceso al polígono industrial han finalizado con tres semanas de adelanto sobre el plazo previsto. La actuación mejora la fluidez del tráfico y reduce la accidentalidad en un punto histórico de retenciones.',
+    category: 'Institucional',
+    publishedDate: '2026-08-12',
+  },
+  {
+    id: 'news-8',
+    title: 'El equipo local de fútbol sala inicia la pretemporada',
+    summary: 'Los entrenamientos arrancan de cara a la nueva temporada en categoría regional.',
+    body: 'El club de fútbol sala del pueblo ha iniciado la pretemporada con la mirada puesta en el ascenso de categoría. El cuerpo técnico ha incorporado a tres nuevos jugadores y prevé disputar varios amistosos antes del inicio de la liga regional.',
+    category: 'Deporte',
+    publishedDate: '2026-08-10',
+  },
+  {
+    id: 'news-9',
+    title: 'Plantación de 200 árboles en el Parque de la Constitución',
+    summary: 'Voluntarios y técnicos municipales participan en la reforestación del parque.',
+    body: 'Un grupo de voluntarios, junto a técnicos del área de Medio Ambiente, ha plantado 200 árboles autóctonos en el Parque de la Constitución dentro del plan municipal de reforestación urbana. La iniciativa busca aumentar la superficie verde del pueblo un 5% en los próximos tres años.',
+    category: 'Medio ambiente',
+    publishedDate: '2026-08-05',
+  },
+  {
+    id: 'news-10',
+    title: 'Abierto el plazo de inscripción para las escuelas deportivas municipales',
+    summary: 'Fútbol, baloncesto y natación, entre las disciplinas disponibles para este curso.',
+    body: 'El Ayuntamiento abre el plazo de inscripción para las escuelas deportivas municipales de cara al nuevo curso. Fútbol, baloncesto, natación y atletismo son algunas de las disciplinas disponibles para niños y niñas de 4 a 16 años. Las plazas se asignan por orden de solicitud.',
+    category: 'Deporte',
+    publishedDate: '2026-08-28',
+  },
+];
