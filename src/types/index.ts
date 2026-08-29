@@ -42,6 +42,17 @@ export interface Product {
 
 // --- News and events board (HAS-7) ------------------------------------------
 
+export interface News {
+  id: ID;
+  title: string;
+  /** Short summary shown in the list. */
+  summary: string;
+  /** Full body shown in the detail view. */
+  body: string;
+  category: string;
+  publishedDate: string;
+}
+
 export interface Event {
   id: ID;
   title: string;
