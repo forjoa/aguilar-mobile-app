@@ -1,6 +1,13 @@
 import type { ReactNode } from 'react';
 import { SymbolView } from 'expo-symbols';
-import { Pressable, StyleSheet, View, type AccessibilityRole, type ViewProps } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  type AccessibilityRole,
+  type AccessibilityState,
+  type ViewProps,
+} from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
@@ -21,6 +28,8 @@ export type ListItemProps = ViewProps & {
    * inside a `<Link asChild>`) so web keeps real link semantics.
    */
   accessibilityRole?: AccessibilityRole;
+  /** E.g. `{ expanded: true }` when this row toggles nested content. */
+  accessibilityState?: AccessibilityState;
 };
 
 /** Generic list row: icon/avatar + title/subtitle + accessory. */
@@ -32,6 +41,7 @@ export function ListItem({
   onPress,
   accessibilityLabel,
   accessibilityRole = 'button',
+  accessibilityState,
   style,
   ...rest
 }: ListItemProps) {
@@ -74,6 +84,7 @@ export function ListItem({
       onPress={onPress}
       accessibilityRole={accessibilityRole}
       accessibilityLabel={accessibilityLabel ?? title}
+      accessibilityState={accessibilityState}
       style={({ pressed }) => pressed && styles.pressed}
     >
       {content}

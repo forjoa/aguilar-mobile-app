@@ -1,5 +1,12 @@
-import { useMemo, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { useMemo, useRef, useState } from 'react';
+import {
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Badge } from '@/components/badge';
@@ -19,7 +26,7 @@ import { mockBusinesses } from '@/mocks/businesses';
 import { mockConversations } from '@/mocks/conversations';
 import { mockProducts } from '@/mocks/products';
 import type { Business, ChatMessage, Conversation, Product } from '@/types';
-import { formatDateTime } from '@/utils/format-date';
+import { formatDate } from '@/utils/format-date';
 import { getSampleConversation } from '@/utils/get-sample-conversation';
 
 const ALL_CATEGORIES = 'all';
@@ -134,6 +141,7 @@ function BusinessCard({
                 subtitle={`${product.price.toFixed(2)} €`}
                 onPress={() => onToggleProduct(product.id)}
                 accessibilityLabel={`Ver ficha de ${product.name}`}
+                accessibilityState={{ expanded: expandedProductId === product.id }}
               />
               {expandedProductId === product.id ? (
                 <ProductFicha product={product} onAskQuestion={onAskQuestion} />
@@ -158,7 +166,11 @@ function ChatBubble({ message, business }: { message: ChatMessage; business: Bus
           { backgroundColor: isUser ? theme.primary : theme.backgroundElement },
         ]}
       >
-        <ThemedText type="small" themeColor="textSecondary" style={styles.bubbleSender}>
+        <ThemedText
+          type="small"
+          themeColor="textSecondary"
+          style={[styles.bubbleSender, isUser && { color: theme.background }]}
+        >
           {isUser ? 'Tú' : business.name}
         </ThemedText>
         <ThemedText type="default" style={isUser && { color: theme.background }}>
@@ -183,9 +195,13 @@ function ChatView({
   onSend: (text: string) => void;
 }) {
   const [draft, setDraft] = useState('');
+  const messagesListRef = useRef<FlatList<ChatMessage>>(null);
 
   return (
-    <View style={styles.chatContainer}>
+    <KeyboardAvoidingView
+      style={styles.chatContainer}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <Button title="← Volver" variant="ghost" onPress={onBack} style={styles.backButton} />
       <ThemedText type="smallBold">{business.name}</ThemedText>
       {product ? (
@@ -194,10 +210,12 @@ function ChatView({
         </ThemedText>
       ) : null}
       <FlatList
+        ref={messagesListRef}
         data={conversation.messages}
         keyExtractor={(message) => message.id}
         contentContainerStyle={styles.messagesList}
         renderItem={({ item }) => <ChatBubble message={item} business={business} />}
+        onContentSizeChange={() => messagesListRef.current?.scrollToEnd({ animated: true })}
       />
       <View style={styles.composeSection}>
         <TextField
@@ -208,17 +226,15 @@ function ChatView({
         />
         <Button
           title="Enviar"
+          disabled={!draft.trim()}
           onPress={() => {
-            if (!draft.trim()) {
-              return;
-            }
             onSend(draft.trim());
             setDraft('');
           }}
           style={styles.sendButton}
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -230,6 +246,8 @@ export default function BusinessScreen() {
   const [expandedProductId, setExpandedProductId] = useState<string | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>(mockConversations);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
+  // Where "← Volver" should land: wherever the chat was opened from.
+  const [chatOrigin, setChatOrigin] = useState<'businesses' | 'my-conversations'>('businesses');
 
   const categories = useMemo(
     () => Array.from(new Set(mockBusinesses.map((business) => business.category))).sort(),
@@ -276,11 +294,13 @@ export default function BusinessScreen() {
       setConversations((current) => [conversation, ...current]);
     }
     setActiveConversationId(conversation.id);
+    setChatOrigin('businesses');
     setView('chat');
   }
 
   function handleOpenConversation(conversationId: string) {
     setActiveConversationId(conversationId);
+    setChatOrigin('my-conversations');
     setView('chat');
   }
 
@@ -379,7 +399,7 @@ export default function BusinessScreen() {
             onPress={() => handleOpenConversation(item.id)}
             trailing={
               <ThemedText type="small" themeColor="textSecondary">
-                {formatDateTime(item.lastMessageDate).split(',')[0]}
+                {formatDate(item.lastMessageDate)}
               </ThemedText>
             }
           />
@@ -400,7 +420,7 @@ export default function BusinessScreen() {
             conversation={activeConversation}
             business={activeBusiness}
             product={activeProduct}
-            onBack={() => setView('businesses')}
+            onBack={() => setView(chatOrigin)}
             onSend={handleSendMessage}
           />
         ) : (
