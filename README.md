@@ -23,6 +23,16 @@ Construida con [Expo](https://expo.dev) (SDK 57) + [Expo Router](https://docs.ex
 
    También puedes pulsar `w` en la terminal para abrir la versión web (útil para revisar pantallas rápido sin un dispositivo a mano).
 
+### Probar desde otro dispositivo que no está en tu misma red
+
+Si quien va a probar la app (en iPad, iPhone o Android con Expo Go) no está en la misma wifi que quien arranca el servidor, usa modo túnel en vez del paso 3 de arriba:
+
+```bash
+npx expo start --tunnel
+```
+
+Comparte el enlace/QR que aparece en la terminal — funciona a través de internet, sin necesidad de estar en la misma red. Hay que dejar el proceso corriendo mientras dure la sesión de pruebas; no es un enlace permanente.
+
 ## Estructura del proyecto
 
 - `src/app/` — rutas de la app (Expo Router, file-based routing). Cada archivo es una pantalla.
@@ -30,11 +40,11 @@ Construida con [Expo](https://expo.dev) (SDK 57) + [Expo Router](https://docs.ex
   - `more/` — pantallas de los 6 módulos adicionales, accesibles desde la pestaña "Más" (navegación en pila, con botón atrás).
 - `src/components/` — componentes reutilizables: los base de HAS-6 (`Card`, `Button`, `Avatar`, `Badge`, `EmptyState`, `LoadingSpinner`, `ScreenHeader`, `ListItem`, `MapBackground`) más `ThemedText`, `ThemedView`, `PlaceholderScreen`.
 - `src/constants/theme.ts` — colores (incluye variantes semánticas `primary`/`success`/`warning`/`danger`), tipografías, espaciados y radios de borde compartidos.
-- `src/types/` y `src/mocks/` — modelos de datos y datos de ejemplo compartidos entre módulos, uno por entidad (`Comercio`, `Evento`, `Incidencia`, etc.) — ver HAS-6.
+- `src/types/` y `src/mocks/` — modelos de datos y datos de ejemplo compartidos entre módulos, uno por entidad (`Business`, `Event`, `Incident`, etc.) — ver HAS-6.
 - `src/utils/` — utilidades compartidas (formateo de fechas/horas, iniciales de un `Avatar`).
 - `src/hooks/use-simulated-loading.ts` — estado de carga simulado para pantallas sin backend real.
 
-Cada módulo del listado de "Más" y cada pestaña núcleo son ahora mismo una pantalla placeholder ("Módulo en construcción"): el desarrollo de cada uno vive en su propia issue de Linear y consume el tema/componentes/mocks de HAS-6 en vez de reinventarlos.
+Cada módulo del listado de "Más" y cada pestaña núcleo se implementa en su propia issue de Linear, consumiendo el tema/componentes/mocks de HAS-6 en vez de reinventarlos. El que todavía no tiene PR mergeado sigue siendo una pantalla placeholder ("Módulo en construcción").
 
 ## Sistema de diseño
 
@@ -51,4 +61,4 @@ npm run test      # Jest + React Native Testing Library
 
 ## Publicar en Expo (pendiente)
 
-Para publicar el proyecto en una cuenta de equipo de Expo y compartir un enlace/QR fijo (en vez de depender de tener `npx expo start` corriendo), hace falta iniciar sesión con `npx expo login` — no incluido en este setup porque requiere autenticación interactiva de una persona del equipo.
+Ya existe un Access Token de la cuenta de equipo (`htbcadmin` en expo.dev, ver HAS-19), pero **EAS Update no sirve para probar en Expo Go** — solo funciona sobre una build de desarrollo/producción instalada en el dispositivo (compilada con EAS Build), y una build instalable en iPhone/iPad exige cuenta de Apple Developer Program (99 $/año; Android no necesita cuenta de pago). Mientras no se decida pagarla, la forma de probar en Expo Go sin estar en la misma red es el modo túnel de arriba (`npx expo start --tunnel`).
